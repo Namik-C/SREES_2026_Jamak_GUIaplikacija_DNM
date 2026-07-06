@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<DevRes>
+	<Translations>
+		<Res id="Quit" tr="Quit"/>
+
+		<Res id="Dodaj vod" tr="Add line"/>
+		<Res id="Dodaje novi tip voda u katalog" tr="Adds a new line type to the catalog"/>
+
+		<Res id="Dodaj transformator" tr="Add transformer"/>
+		<Res id="Dodaje novi tip transformatora u katalog" tr="Adds a new transformer type to the catalog"/>
+
+		<Res id="Snimi CSV" tr="Save CSV"/>
+		<Res id="Snima katalog u CSV fajlove" tr="Saves the catalog to CSV files"/>
+
+		<Res id="Ucitaj CSV" tr="Load CSV"/>
+		<Res id="Ucitava katalog iz CSV fajlova" tr="Loads the catalog from CSV files"/>
+	</Translations>
+</DevRes>

@@ -1,0 +1,33 @@
+set(APP_NAME NetworkModeler)			#Naziv izvrsnog fajla
+
+file(GLOB APP_SOURCES_GUI      ${CMAKE_CURRENT_LIST_DIR}/gui/*.cpp)
+file(GLOB APP_INCS_GUI         ${CMAKE_CURRENT_LIST_DIR}/gui/*.h)
+file(GLOB APP_SOURCES_CATALOG  ${CMAKE_CURRENT_LIST_DIR}/CatalogModel/*.cpp)
+file(GLOB APP_INCS_CATALOG     ${CMAKE_CURRENT_LIST_DIR}/CatalogModel/*.h)
+
+set(APP_PLIST ${CMAKE_CURRENT_LIST_DIR}/gui/Info.plist)
+
+file(GLOB APP_INC_TD  ${NATID_SDK_INC}/td/*.h)
+file(GLOB APP_INC_GUI ${NATID_SDK_INC}/gui/*.h)
+
+# add executable
+add_executable(${APP_NAME}
+    ${APP_SOURCES_GUI} ${APP_INCS_GUI}
+    ${APP_SOURCES_CATALOG} ${APP_INCS_CATALOG}
+    ${APP_INC_TD} ${APP_INC_GUI}
+)
+
+target_include_directories(${APP_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+
+source_group("gui"              FILES ${APP_SOURCES_GUI} ${APP_INCS_GUI})
+source_group("CatalogModel"      FILES ${APP_SOURCES_CATALOG} ${APP_INCS_CATALOG})
+source_group("inc\\td"          FILES ${APP_INC_TD})
+source_group("inc\\gui"         FILES ${APP_INC_GUI})
+
+target_link_libraries(${APP_NAME} debug ${MU_LIB_DEBUG} debug ${NATGUI_LIB_DEBUG} optimized ${MU_LIB_RELEASE} optimized ${NATGUI_LIB_RELEASE})
+
+setTargetPropertiesForGUIApp(${APP_NAME} ${APP_PLIST})
+
+setIDEPropertiesForGUIExecutable(${APP_NAME} ${CMAKE_CURRENT_LIST_DIR})
+
+setPlatformDLLPath(${APP_NAME})

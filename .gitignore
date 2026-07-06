@@ -1,0 +1,24 @@
+# Visual Studio
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+
+# CMake build output
+build/
+out/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.cmake.bak
+
+# Compiled binaries
+*.exe
+*.dll
+*.lib
+*.obj
+*.pdb
+*.ilk
+
+# OS junk
+Thumbs.db
+.DS_Store
