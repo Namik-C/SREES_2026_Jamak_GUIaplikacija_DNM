@@ -1,18 +1,21 @@
 <?xml version='1.0'?>
 <DevRes>
 	<Translations>
-		<Res id="Quit" tr="Quit"/>
+		<Res id="Quit" tr="Izlaz"/>
 
-		<Res id="Dodaj vod" tr="Add line"/>
-		<Res id="Dodaje novi tip voda u katalog" tr="Adds a new line type to the catalog"/>
+		<Res id="Dodaj vod" tr="Dodaj vod"/>
+		<Res id="Dodaje novi tip voda u katalog" tr="Dodaje novi tip voda u katalog"/>
 
-		<Res id="Dodaj transformator" tr="Add transformer"/>
-		<Res id="Dodaje novi tip transformatora u katalog" tr="Adds a new transformer type to the catalog"/>
+		<Res id="Dodaj transformator" tr="Dodaj transformator"/>
+		<Res id="Dodaje novi tip transformatora u katalog" tr="Dodaje novi tip transformatora u katalog"/>
 
-		<Res id="Snimi CSV" tr="Save CSV"/>
-		<Res id="Snima katalog u CSV fajlove" tr="Saves the catalog to CSV files"/>
+		<Res id="Snimi CSV" tr="Snimi CSV"/>
+		<Res id="Snima katalog u CSV fajlove" tr="Snima katalog u CSV fajlove"/>
 
-		<Res id="Ucitaj CSV" tr="Load CSV"/>
-		<Res id="Ucitava katalog iz CSV fajlova" tr="Loads the catalog from CSV files"/>
+		<Res id="Ucitaj CSV" tr="Ucitaj CSV"/>
+		<Res id="Ucitava katalog iz CSV fajlova" tr="Ucitava katalog iz CSV fajlova"/>
+
+		<Res id="Test mreza" tr="Test mreza"/>
+		<Res id="Gradi test mrezu i prikazuje Ybus matricu" tr="Gradi test mrezu i prikazuje Ybus matricu"/>
 	</Translations>
 </DevRes>

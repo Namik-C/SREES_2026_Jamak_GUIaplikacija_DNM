@@ -10,6 +10,7 @@
 #include <gui/GridComposer.h>
 
 #include "../CatalogModel/EquipmentCatalog.h"
+#include "../network/Network.h"
 
 // ViewCatalog - forma za unos tipova vodova i transformatora u katalog,
 // sa jednostavnim tekstualnim prikazom trenutnog sadrzaja kataloga.
@@ -62,6 +63,7 @@ protected:
     gui::HorizontalLayout _hlFileButtons;
     gui::Button _btnSaveCsv;
     gui::Button _btnLoadCsv;
+    gui::Button _btnTestNetwork;
     gui::TextEdit _list;
 
     gui::GridLayout _gl;
@@ -73,4 +75,5 @@ protected:
     void refreshList();
     void clearLineFields();
     void clearTrafoFields();
+    void testNetwork();
 };

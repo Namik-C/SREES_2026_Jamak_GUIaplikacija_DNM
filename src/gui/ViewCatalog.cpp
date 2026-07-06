@@ -38,6 +38,7 @@ ViewCatalog::ViewCatalog()
 , _hlFileButtons(10)
 , _btnSaveCsv(tr("Snimi CSV"), tr("Snima katalog u CSV fajlove"))
 , _btnLoadCsv(tr("Ucitaj CSV"), tr("Ucitava katalog iz CSV fajlova"))
+, _btnTestNetwork(tr("Test mreza"), tr("Gradi test mrezu i prikazuje Ybus matricu"))
 , _gl(14, 4)
 {
     gui::GridComposer gc(_gl);
@@ -59,7 +60,7 @@ ViewCatalog::ViewCatalog()
     gc.appendRow(_lblConnGroup) << _connGroup << _btnAddTrafo;
 
     // --- fajl dugmad i lista ---
-    _hlFileButtons << _btnSaveCsv << _btnLoadCsv;
+    _hlFileButtons << _btnSaveCsv << _btnLoadCsv << _btnTestNetwork;
     gc.appendRow(_hlFileButtons, 0);
     gc.appendRow(_list, 0);
 
@@ -124,7 +125,56 @@ ViewCatalog::ViewCatalog()
             refreshList();
         });
 
+    _btnTestNetwork.onClick([this]()
+        {
+            testNetwork();
+        });
+
     refreshList();
+}
+
+void ViewCatalog::testNetwork()
+{
+    if (_catalog.lineTypeCount() == 0 || _catalog.transformerTypeCount() == 0)
+    {
+        _list.appendString("Test mreze zahtijeva bar 1 tip voda i 1 tip transformatora u katalogu.\n");
+        return;
+    }
+
+    const LineType& lt = _catalog.getLineTypes()[0];
+    const TransformerType& tt = _catalog.getTransformerTypes()[0];
+
+    // Napravi jednostavnu test mrezu: 3 cvora, 2 grane (vod + transformator)
+    Network net;
+    net.addNode(Node(1, "Bus1", lt.getURatedKv()));
+    net.addNode(Node(2, "Bus2", lt.getURatedKv()));
+    net.addNode(Node(3, "Bus3", tt.getUSecondaryKv()));
+
+    net.addBranch(Branch::makeLine(1, 2, lt, 1.0)); // 1 km vod izmedju Bus1 i Bus2
+    net.addBranch(Branch::makeTransformer(2, 3, tt)); // transformator izmedju Bus2 i Bus3
+
+    std::ostringstream oss;
+    oss << "=== Test mreza: " << net.nodeCount() << " cvora, " << net.branchCount() << " grane ===\n";
+
+    dense::DblMatrix incidence = net.buildIncidenceMatrix();
+    dense::MatrixIO<double> incReader = incidence.getManipulator();
+    oss << "\n--- Matrica incidencije (" << incidence.getNoOfRows() << "x" << incidence.getNoOfCols() << ") ---\n";
+    for (td::UINT4 r = 0; r < incidence.getNoOfRows(); ++r)
+    {
+        for (td::UINT4 c = 0; c < incidence.getNoOfCols(); ++c)
+            oss << incReader(r, c) << "\t";
+        oss << "\n";
+    }
+
+    sparse::ICmplxMatrix* pYbus = net.buildYbus();
+    sparse::CmplxMatrixReleaser releaser(pYbus); // automatski poziva release() na kraju
+
+    oss << "\n--- Ybus matrica (" << pYbus->getNoOfRows() << "x" << pYbus->getNoOfCols()
+        << ", nonzero=" << pYbus->getNoOfNonZero() << ") ---\n";
+    pYbus->serialize("Ybus", oss, sparse::Format::Matlab);
+    oss << "\n";
+
+    _list.appendString(oss.str().c_str());
 }
 
 void ViewCatalog::clearLineFields()

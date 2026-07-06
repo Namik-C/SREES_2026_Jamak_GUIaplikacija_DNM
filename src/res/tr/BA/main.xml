@@ -14,5 +14,8 @@
 
 		<Res id="Ucitaj CSV" tr="Ucitaj CSV"/>
 		<Res id="Ucitava katalog iz CSV fajlova" tr="Ucitava katalog iz CSV fajlova"/>
+
+		<Res id="Test mreza" tr="Test mreza"/>
+		<Res id="Gradi test mrezu i prikazuje Ybus matricu" tr="Gradi test mrezu i prikazuje Ybus matricu"/>
 	</Translations>
 </DevRes>
