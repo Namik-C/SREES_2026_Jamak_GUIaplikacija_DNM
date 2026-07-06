@@ -17,5 +17,14 @@
 
 		<Res id="Test mreza" tr="Test mreza"/>
 		<Res id="Gradi test mrezu i prikazuje Ybus matricu" tr="Gradi test mrezu i prikazuje Ybus matricu"/>
+
+		<Res id="Primijeni tip grane" tr="Primijeni tip grane"/>
+		<Res id="Postavlja odabrani tip grane za sljedece povezivanje" tr="Postavlja odabrani tip grane za sljedece povezivanje"/>
+		<Res id="Osvjezi katalog" tr="Osvjezi katalog"/>
+		<Res id="Ucitava najnovije stanje kataloga u liste" tr="Ucitava najnovije stanje kataloga u liste"/>
+		<Res id="Obrisi mrezu" tr="Obrisi mrezu"/>
+		<Res id="Brise sve cvorove i grane" tr="Brise sve cvorove i grane"/>
+		<Res id="Prikazi Ybus" tr="Prikazi Ybus"/>
+		<Res id="Gradi i prikazuje Ybus matricu trenutne mreze" tr="Gradi i prikazuje Ybus matricu trenutne mreze"/>
 	</Translations>
 </DevRes>

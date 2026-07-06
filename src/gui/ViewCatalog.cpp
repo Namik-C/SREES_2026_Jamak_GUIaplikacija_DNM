@@ -1,8 +1,9 @@
 #include "ViewCatalog.h"
 #include <sstream>
 
-ViewCatalog::ViewCatalog()
-: _lblLineSection("--- Katalog vodova ---")
+ViewCatalog::ViewCatalog(EquipmentCatalog& catalog)
+: _catalog(catalog)
+, _lblLineSection("--- Katalog vodova ---")
 , _lblLineName("Naziv voda:")
 , _lblR1("R1 [ohm/km]:")
 , _r1(td::real8)

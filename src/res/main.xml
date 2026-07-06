@@ -1,5 +1,7 @@
 <?xml version='1.0'?>
 <DevRes>
-	<ArtWork>
-	</ArtWork>
+	<Symbols>
+		<Res id="bus" path="Common/Symbols/PSA/bus.xml"/>
+		<Res id="Xfmr2" path="Common/Symbols/PSA/TwoWindingTransformer.xml"/>
+	</Symbols>
 </DevRes>

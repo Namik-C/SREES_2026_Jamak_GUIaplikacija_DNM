@@ -1,21 +1,30 @@
 <?xml version='1.0'?>
 <DevRes>
 	<Translations>
-		<Res id="Quit" tr="Izlaz"/>
+		<Res id="Quit" tr="Quit"/>
 
-		<Res id="Dodaj vod" tr="Dodaj vod"/>
-		<Res id="Dodaje novi tip voda u katalog" tr="Dodaje novi tip voda u katalog"/>
+		<Res id="Dodaj vod" tr="Add line"/>
+		<Res id="Dodaje novi tip voda u katalog" tr="Adds a new line type to the catalog"/>
 
-		<Res id="Dodaj transformator" tr="Dodaj transformator"/>
-		<Res id="Dodaje novi tip transformatora u katalog" tr="Dodaje novi tip transformatora u katalog"/>
+		<Res id="Dodaj transformator" tr="Add transformer"/>
+		<Res id="Dodaje novi tip transformatora u katalog" tr="Adds a new transformer type to the catalog"/>
 
-		<Res id="Snimi CSV" tr="Snimi CSV"/>
-		<Res id="Snima katalog u CSV fajlove" tr="Snima katalog u CSV fajlove"/>
+		<Res id="Snimi CSV" tr="Save CSV"/>
+		<Res id="Snima katalog u CSV fajlove" tr="Saves the catalog to CSV files"/>
 
-		<Res id="Ucitaj CSV" tr="Ucitaj CSV"/>
-		<Res id="Ucitava katalog iz CSV fajlova" tr="Ucitava katalog iz CSV fajlova"/>
+		<Res id="Ucitaj CSV" tr="Load CSV"/>
+		<Res id="Ucitava katalog iz CSV fajlova" tr="Loads the catalog from CSV files"/>
 
-		<Res id="Test mreza" tr="Test mreza"/>
-		<Res id="Gradi test mrezu i prikazuje Ybus matricu" tr="Gradi test mrezu i prikazuje Ybus matricu"/>
+		<Res id="Test mreza" tr="Test network"/>
+		<Res id="Gradi test mrezu i prikazuje Ybus matricu" tr="Builds a test network and shows the Ybus matrix"/>
+
+		<Res id="Primijeni tip grane" tr="Apply branch type"/>
+		<Res id="Postavlja odabrani tip grane za sljedece povezivanje" tr="Sets the selected branch type for the next connection"/>
+		<Res id="Osvjezi katalog" tr="Refresh catalog"/>
+		<Res id="Ucitava najnovije stanje kataloga u liste" tr="Loads the latest catalog state into the lists"/>
+		<Res id="Obrisi mrezu" tr="Clear network"/>
+		<Res id="Brise sve cvorove i grane" tr="Deletes all nodes and branches"/>
+		<Res id="Prikazi Ybus" tr="Show Ybus"/>
+		<Res id="Gradi i prikazuje Ybus matricu trenutne mreze" tr="Builds and shows the Ybus matrix of the current network"/>
 	</Translations>
 </DevRes>

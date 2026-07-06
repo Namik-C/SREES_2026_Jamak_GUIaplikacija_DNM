@@ -18,6 +18,8 @@ public:
     Network() = default;
 
     void addNode(const Node& node);
+    // Dodaje cvor sa automatski dodijeljenim ID-jem, vraca taj ID
+    int addNodeAt(const std::string& name, double nominalVoltageKv, double x, double y);
     void addBranch(const Branch& branch);
 
     size_t nodeCount() const { return _nodes.size(); }
@@ -29,6 +31,9 @@ public:
     // Vraca poziciju (0-based indeks) cvora sa datim ID-om unutar interne liste, ili -1 ako ne postoji.
     int getNodeIndexById(int nodeId) const;
 
+    // Vraca indeks cvora najblizeg tacki (x,y) unutar zadanog radijusa, ili -1 ako nema takvog.
+    int findNodeIndexNear(double x, double y, double radius) const;
+
     // Matrica incidencije: broj redova = broj grana, broj kolona = broj cvorova.
     // A(k, i) = +1 ako grana k pocinje u cvoru i, -1 ako zavrsava u cvoru i, inace 0.
     dense::DblMatrix buildIncidenceMatrix() const;
@@ -37,8 +42,14 @@ public:
     // Pozivalac je odgovoran da pozove release() na vracenom pokazivacu kad zavrsi.
     sparse::ICmplxMatrix* buildYbus() const;
 
+    // Trofazna (ABC) Ybus admitantna matrica: dimenzija (3*nodeCount) x (3*nodeCount).
+    // Cvor i zauzima redove/kolone [3*i, 3*i+1, 3*i+2] (faze A, B, C).
+    // Pozivalac je odgovoran da pozove release() na vracenom pokazivacu kad zavrsi.
+    sparse::ICmplxMatrix* buildYbus3Phase() const;
+
 private:
     std::vector<Node> _nodes;
     std::vector<Branch> _branches;
     std::unordered_map<int, int> _nodeIdToIndex; // node ID -> pozicija u _nodes
+    int _nextAutoId = 1;
 };

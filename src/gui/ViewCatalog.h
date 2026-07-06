@@ -17,7 +17,7 @@
 class ViewCatalog : public gui::View
 {
 protected:
-    EquipmentCatalog _catalog;
+    EquipmentCatalog& _catalog;
 
     // --- sekcija: vod ---
     gui::Label _lblLineSection;
@@ -69,7 +69,7 @@ protected:
     gui::GridLayout _gl;
 
 public:
-    ViewCatalog();
+    explicit ViewCatalog(EquipmentCatalog& catalog);
 
 protected:
     void refreshList();

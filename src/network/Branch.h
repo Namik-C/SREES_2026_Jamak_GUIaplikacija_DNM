@@ -1,6 +1,7 @@
 #pragma once
 
 #include <complex>
+#include <dense/Matrix.h>
 #include "../CatalogModel/LineType.h"
 #include "../CatalogModel/TransformerType.h"
 
@@ -94,6 +95,17 @@ public:
         }
         return std::complex<double>(0.0, 0.0);
     }
+
+    // --- Trofazni (ABC) model ---
+    // Vraca 3x3 kompleksnu admitantnu matricu grane u faznom (ABC) domenu,
+    // izgradjenu iz sekvencijalnih (Z1, Z0) impedansi kataloga.
+    // Za vod: puna Zs/Zm struktura (medjufazno sprezanje iz Z0 vs Z1 razlike).
+    // Za transformator: pojednostavljeno - faze nezavisne (Zm=0), jer katalog
+    // ne sadrzi zasebnu nultu sekvencu transformatora.
+    dense::CmplxMatrix getPhaseSeriesAdmittance() const;
+
+    // Sant admitansa u ABC domenu (samo dijagonalni clanovi, bez medjufaznog sprezanja - pojednostavljeno)
+    dense::CmplxMatrix getPhaseShuntAdmittance() const;
 
 private:
     int _fromNodeId = -1;

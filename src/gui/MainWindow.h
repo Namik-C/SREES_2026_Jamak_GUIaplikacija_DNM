@@ -2,13 +2,13 @@
 #include <gui/Window.h>
 #include <gui/ActionItem.h>
 #include "MenuBar.h"
-#include "ViewCatalog.h"
+#include "MainTabView.h"
 
 class MainWindow : public gui::Window
 {
 protected:
     MenuBar _mainMenuBar;
-    ViewCatalog _mainView;
+    MainTabView _mainView;
 
 public:
     MainWindow()
