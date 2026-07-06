@@ -1,0 +1,1200 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\text_class article
+\use_default_options true
+\maintain_unincluded_children false
+\language croatian
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_title "Modelovanje trofazne nesimetricne distributivne mreze"
+\pdf_author "Namik Jamak"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry true
+\geometry_left 2.5cm
+\geometry_right 2.5cm
+\geometry_top 2.5cm
+\geometry_bottom 2.5cm
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style swiss
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+GUI aplikacija za modelovanje trofazne nesimetrične distributivne mreže
+\end_layout
+
+\begin_layout Author
+Namik Jamak
+\end_layout
+
+\begin_layout Date
+2026
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Zamijeni "Namik Jamak" svojim punim imenom, dodaj broj indeksa/predmet ako
+ profesor to trazi, i po potrebi dodaj naziv fakulteta/predmeta ispod naslova.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Uvod
+\end_layout
+
+\begin_layout Standard
+Cilj ovog projekta je razviti desktop GUI aplikaciju za modelovanje osnovnih
+ elemenata trofazne nesimetrične distributivne mreže — kataloga opreme
+ (vodovi, transformatori) i topologije mreže (čvorovi i grane) — koristeći
+ 
+\emph on
+natID
+\emph default
+ C++ framework.
+ Aplikacija omogućava unos tipova opreme, grafičko postavljanje topologije
+ mreže klikom miša, i formiranje matematičkog modela mreže u vidu matrice
+ incidencije i trofazne (ABC) admitantne (Ybus) matrice.
+\end_layout
+
+\begin_layout Standard
+Poseban naglasak je stavljen na to da model mreže bude istinski 
+\series bold
+trofazan i sposoban da predstavi nesimetriju
+\series default
+, a ne pojednostavljen jednofazni ekvivalent — što je i osnovni zahtjev
+ naslova projekta.
+ Nesimetrija se u modelu javlja kroz razliku direktne (pozitivne) i nulte
+ sekvencijalne impedanse voda, iz čega se izvodi puna 3×3 fazna (ABC) admitantn
+a matrica svake grane.
+\end_layout
+
+\begin_layout Subsection
+Zahtjevi projekta
+\end_layout
+
+\begin_layout Itemize
+Korištenje 
+\emph on
+natID
+\emph default
+ frameworka za GUI, uz obaveznu upotrebu 
+\emph on
+dense
+\emph default
+ i 
+\emph on
+sparse
+\emph default
+ matrica iz natID SDK-a za sve matrične proračune.
+\end_layout
+
+\begin_layout Itemize
+Korištenje OpenDraw (natID 
+\family typewriter
+gui::Canvas
+\family default
+) mehanizma za grafički prikaz mreže.
+\end_layout
+
+\begin_layout Itemize
+Cijeli kod na GitHub-u, sa jasno definisanom strukturom foldera (
+\family typewriter
+docs
+\family default
+, 
+\family typewriter
+src
+\family default
+, 
+\family typewriter
+presentation
+\family default
+).
+\end_layout
+
+\begin_layout Itemize
+CMake konfiguracija projekta, sposobna za kompajliranje na najmanje dvije
+ platforme.
+\end_layout
+
+\begin_layout Section
+Korišteni alati i framework
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+natID
+\emph default
+ (Native Interface Design) je C++ framework za razvoj GUI aplikacija koje
+ se kompajliraju nativno na macOS, Windows i Linux platformama, koristeći
+ native komponente svake platforme (Cocoa na macOS-u, GTK4 na Windows-u
+ i Linux-u).
+ Pored GUI komponenti, natID SDK sadrži i zasebne biblioteke za:
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+dense
+\family default
+ — gusta matrica (
+\family typewriter
+dense::Matrix<T>
+\family default
+), predstavlja svaki element eksplicitno, pogodna za manje matrice ili
+ matrice bez znacajnog broja nula (npr.
+ matrica incidencije).
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+sparse
+\family default
+ — rijetka (sparse) matrica (
+\family typewriter
+sparse::IMatrix<INDEX,TVAL>
+\family default
+), skladišti samo ne-nula elemente preko trojki (red, kolona, vrijednost),
+ pogodna za Ybus admitantnu matricu koja je u realnim mrežama uglavnom
+ popunjena nulama.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+gui::Canvas
+\family default
+, 
+\family typewriter
+gui::Shape
+\family default
+, 
+\family typewriter
+gui::Symbol
+\family default
+ — mehanizam za crtanje (OpenDraw), uz gotovu biblioteku simbola za elektroenerg
+etske sheme (sabirnica, transformator, generator, prekidač, itd.) unutar
+ 
+\family typewriter
+Common/Symbols/PSA
+\family default
+ foldera SDK-a.
+\end_layout
+
+\begin_layout Standard
+Razvojno okruženje: Visual Studio 2022 (Windows), CMake build sistem, Git/GitHub
+ za verzionisanje koda.
+\end_layout
+
+\begin_layout Section
+Arhitektura sistema
+\end_layout
+
+\begin_layout Standard
+Aplikacija je podijeljena u tri logička modula: 
+\series bold
+katalog opreme
+\series default
+, 
+\series bold
+topologija mreže
+\series default
+ i 
+\series bold
+grafički korisnički interfejs
+\series default
+.
+\end_layout
+
+\begin_layout Subsection
+Modul kataloga opreme (
+\family typewriter
+CatalogModel
+\family default
+)
+\end_layout
+
+\begin_layout Standard
+Ovaj modul čuva tipove opreme koji se koriste za izgradnju mreže, nezavisno
+ od same topologije.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+
+\family typewriter
+LineType
+\family default
+\series default
+ — tip voda/kabla: naziv, direktna otpornost/reaktansa/susceptansa po km
+ (R1, X1, B1), nulta otpornost/reaktansa po km (R0, X0), nazivna struja
+ i napon.
+ Nulta sekvenca (R0, X0) je ključna za trofazni model opisan u poglavlju
+ 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Matematicki-model"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+
+\family typewriter
+TransformerType
+\family default
+\series default
+ — tip transformatora: nazivna snaga, naponski nivoi primara/sekundara,
+ napon kratkog spoja (Uk%), gubici u bakru i gvožđu, grupa spoja.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+
+\family typewriter
+EquipmentCatalog
+\family default
+\series default
+ — kolekcija oba tipa, sa CRUD operacijama (dodavanje, brisanje, pretraga)
+ i perzistencijom u CSV formatu.
+\end_layout
+
+\begin_layout Subsection
+Modul topologije mreže (
+\family typewriter
+network
+\family default
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+
+\family typewriter
+Node
+\family default
+\series default
+ — čvor (sabirnica) mreže: ID, naziv, nazivni napon, i (x, y) koordinate
+ za grafički prikaz.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+
+\family typewriter
+Branch
+\family default
+\series default
+ — grana mreže (vod ili transformator) koja povezuje dva čvora.
+ Sadrži metode za proračun jednofazne i trofazne (ABC) admitanse na osnovu
+ kataloških parametara referenciranog tipa opreme.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+
+\family typewriter
+Network
+\family default
+\series default
+ — kolekcija čvorova i grana.
+ Gradi matricu incidencije (
+\family typewriter
+dense::DblMatrix
+\family default
+) i trofaznu Ybus admitantnu matricu (
+\family typewriter
+sparse::ICmplxMatrix
+\family default
+).
+\end_layout
+
+\begin_layout Subsection
+Grafički korisnički interfejs (
+\family typewriter
+gui
+\family default
+)
+\end_layout
+
+\begin_layout Standard
+GUI je organizovan kroz natID 
+\family typewriter
+gui::Application
+\family default
+ / 
+\family typewriter
+gui::Window
+\family default
+ hijerarhiju, sa glavnim prozorom koji sadrži dva taba (
+\family typewriter
+gui::StandardTabView
+\family default
+):
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Katalog opreme
+\series default
+ (
+\family typewriter
+ViewCatalog
+\family default
+) — forma za unos vodova i transformatora, sa dugmadima za dodavanje, čuvanje/uč
+itavanje u CSV, i test proračun jednofazne Ybus matrice.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Mreža
+\series default
+ (
+\family typewriter
+ViewNetworkPanel
+\family default
+ + 
+\family typewriter
+ViewNetworkCanvas
+\family default
+) — interaktivno platno na kojem korisnik klikom miša postavlja čvorove
+ (nacrtane kao natID 
+\family typewriter
+bus
+\family default
+ simbol) i povezuje ih granama odabranog tipa iz kataloga (vod prikazan
+ plavom linijom, transformator narandžastom isprekidanom linijom sa simbolom
+ transformatora na sredini).
+\end_layout
+
+\begin_layout Standard
+Oba taba dijele 
+\series bold
+istu instancu
+\series default
+ 
+\family typewriter
+EquipmentCatalog
+\family default
+ klase (vlasništvo 
+\family typewriter
+MainTabView
+\family default
+, prosljeđeno po referenci), tako da se novododani tip opreme na prvom
+ tabu odmah može koristiti za kreiranje grana na drugom tabu.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Matematicki-model"
+
+\end_inset
+
+Matematički model mreže
+\end_layout
+
+\begin_layout Subsection
+Matrica incidencije
+\end_layout
+
+\begin_layout Standard
+Matrica incidencije 
+\begin_inset Formula $A$
+\end_inset
+
+ dimenzije (broj grana) × (broj čvorova) opisuje topologiju mreže: element
+ 
+\begin_inset Formula $A_{k,i}$
+\end_inset
+
+ jednak je 
+\begin_inset Formula $+1$
+\end_inset
+
+ ako grana 
+\begin_inset Formula $k$
+\end_inset
+
+ počinje u čvoru 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $-1$
+\end_inset
+
+ ako u njemu završava, i 
+\begin_inset Formula $0$
+\end_inset
+
+ inače.
+ Implementirana je preko 
+\family typewriter
+dense::DblMatrix
+\family default
+ (gusta matrica), jer je po prirodi mala i rijetko dominantno popunjena
+ nulama u odnosu na Ybus matricu.
+\end_layout
+
+\begin_layout Subsection
+Jednofazni (pozitivna sekvenca) ekvivalent
+\end_layout
+
+\begin_layout Standard
+Kao polazna, jednostavnija provjera ispravnosti modela, za svaku granu
+ se računa serijska admitansa iz direktne sekvencijalne impedanse:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{serija}=\frac{1}{Z_{1}}=\frac{1}{R_{1}+jX_{1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Standardnom formulom za formiranje admitantne matrice mreže, za granu između
+ čvorova 
+\begin_inset Formula $i$
+\end_inset
+
+ i 
+\begin_inset Formula $j$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+Y_{bus}(i,i) & \mathrel{+}= y_{serija}+\frac{y_{shunt}}{2}\\
+Y_{bus}(j,j) & \mathrel{+}= y_{serija}+\frac{y_{shunt}}{2}\\
+Y_{bus}(i,j) & \mathrel{-}= y_{serija}\\
+Y_{bus}(j,i) & \mathrel{-}= y_{serija}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+gdje je 
+\begin_inset Formula $y_{shunt}=jB_{1}$
+\end_inset
+
+ poprečna (shunt) susceptansa voda.
+ Ovaj model tretira svaki čvor kao jednu (skalarnu) veličinu i ne razlikuje
+ faze — koristi se kao brza provjera ispravnosti topologije prije prelaska
+ na puni trofazni model.
+\end_layout
+
+\begin_layout Subsection
+Trofazni (ABC) model
+\end_layout
+
+\begin_layout Standard
+Puni model predstavlja svaki čvor sa 
+\series bold
+tri
+\series default
+ veličine (faze A, B, C), pa Ybus matrica postaje dimenzije 
+\begin_inset Formula $3N\times3N$
+\end_inset
+
+ (N — broj čvorova), sastavljena od 
+\begin_inset Formula $3\times3$
+\end_inset
+
+ blokova po paru čvorova.
+ Fazna (ABC) impedantna matrica voda izvodi se iz direktne (
+\begin_inset Formula $Z_{1}$
+\end_inset
+
+) i nulte (
+\begin_inset Formula $Z_{0}$
+\end_inset
+
+) sekvencijalne impedanse standardnom transformacijom simetričnih komponenti,
+ uz pretpostavku transponovanog (fizički simetričnog) voda:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z_{s}=\frac{Z_{0}+2Z_{1}}{3}\qquad Z_{m}=\frac{Z_{0}-Z_{1}}{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z_{ABC}=\begin{bmatrix}Z_{s} & Z_{m} & Z_{m}\\
+Z_{m} & Z_{s} & Z_{m}\\
+Z_{m} & Z_{m} & Z_{s}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Pošto je 
+\begin_inset Formula $Z_{ABC}$
+\end_inset
+
+ cirkulantna matrica, njena inverzija (admitantna matrica) ima identičnu
+ strukturu i može se izračunati direktno preko sekvencijalnih admitansi,
+ bez eksplicitne inverzije matrice:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{1}=\frac{1}{Z_{1}}\qquad Y_{0}=\frac{1}{Z_{0}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{s}=\frac{Y_{0}+2Y_{1}}{3}\qquad Y_{m}=\frac{Y_{0}-Y_{1}}{3}\qquad Y_{ABC}=\begin{bmatrix}Y_{s} & Y_{m} & Y_{m}\\
+Y_{m} & Y_{s} & Y_{m}\\
+Y_{m} & Y_{m} & Y_{s}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Kada je vod savršeno simetričan (
+\begin_inset Formula $Z_{0}=Z_{1}$
+\end_inset
+
+), slijedi 
+\begin_inset Formula $Y_{m}=0$
+\end_inset
+
+ i faze se potpuno razdvajaju — model se svodi na tri nezavisna jednofazna
+ kruga.
+ Nesimetrija u praksi (različita struja/napon po fazama) tada dolazi isključivo
+ od neravnomjernog opterećenja po fazama, a ne od same impedanse voda —
+ što je uobičajena i prihvatljiva aproksimacija za distributivne mreže
+ sa transponovanim (ili približno simetričnim) vodovima.
+\end_layout
+
+\begin_layout Standard
+Za transformator katalog ne sadrži zasebnu nultu sekvencu (zavisi od grupe
+ spoja), pa je u trenutnoj verziji modela usvojeno pojednostavljenje: faze
+ transformatora se tretiraju kao međusobno nezavisne (
+\begin_inset Formula $Y_{m}=0$
+\end_inset
+
+), sa jednakom serijskom admitansom na sve tri faze, izračunatom iz napona
+ kratkog spoja i gubitaka u bakru.
+ Ovo je jasno naznačeno kao pojednostavljenje i predstavlja prirodan pravac
+ daljeg unaprjeđenja (poglavlje 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Zakljucak"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Ugrađivanje 
+\begin_inset Formula $3\times3$
+\end_inset
+
+ bloka grane između čvorova 
+\begin_inset Formula $i$
+\end_inset
+
+ i 
+\begin_inset Formula $j$
+\end_inset
+
+ u punu 
+\begin_inset Formula $3N\times3N$
+\end_inset
+
+ matricu vrši se analogno jednofaznom slučaju, primijenjeno na svaki par
+ faza 
+\begin_inset Formula $(p,q)\in\{A,B,C\}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+Y_{bus}(3i+p,\,3i+q) & \mathrel{+}=Y_{ABC}(p,q)+\frac{Y_{shunt}(p,q)}{2}\\
+Y_{bus}(3j+p,\,3j+q) & \mathrel{+}=Y_{ABC}(p,q)+\frac{Y_{shunt}(p,q)}{2}\\
+Y_{bus}(3i+p,\,3j+q) & \mathrel{-}=Y_{ABC}(p,q)\\
+Y_{bus}(3j+p,\,3i+q) & \mathrel{-}=Y_{ABC}(p,q)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ova matrica se gradi kroz natID 
+\family typewriter
+sparse::IMatrix
+\family default
+ interfejs, pozivom 
+\family typewriter
+addTriple(i, j, vrijednost)
+\family default
+ za svaki ne-nula element, što je efikasno jer je matrica po prirodi rijetko
+ popunjena (svaki čvor je direktno povezan samo sa svojim susjedima).
+\end_layout
+
+\begin_layout Section
+Implementacijski detalji
+\end_layout
+
+\begin_layout Subsection
+Korištenje natID dense matrice
+\end_layout
+
+\begin_layout Standard
+Matrica incidencije koristi 
+\family typewriter
+dense::Matrix<double>
+\family default
+ (alias 
+\family typewriter
+dense::DblMatrix
+\family default
+).
+ Pristup elementima ostvaruje se preko manipulator objekta:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+dense::DblMatrix A(nBranches,
+\begin_inset space ~
+\end_inset
+
+nNodes,
+\begin_inset space ~
+\end_inset
+
+nullptr,
+\begin_inset space ~
+\end_inset
+
+true);
+\end_layout
+
+\begin_layout Plain Layout
+
+dense::MatrixIO<double>
+\begin_inset space ~
+\end_inset
+
+io
+\begin_inset space ~
+\end_inset
+
+=
+\begin_inset space ~
+\end_inset
+
+A.getManipulator();
+\end_layout
+
+\begin_layout Plain Layout
+
+io(red,
+\begin_inset space ~
+\end_inset
+
+kolona)
+\begin_inset space ~
+\end_inset
+
+=
+\begin_inset space ~
+\end_inset
+
+vrijednost;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Korištenje natID sparse matrice
+\end_layout
+
+\begin_layout Standard
+Trofazna Ybus matrica koristi 
+\family typewriter
+sparse::ICmplxMatrix
+\family default
+, kreiranu tvorničkom funkcijom i punjenu preko 
+\family typewriter
+addTriple
+\family default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+sparse::ICmplxMatrix*
+\begin_inset space ~
+\end_inset
+
+pYbus
+\begin_inset space ~
+\end_inset
+
+=
+\begin_inset space ~
+\end_inset
+
+sparse::createCmplxMatrix(n,
+\begin_inset space ~
+\end_inset
+
+n,
+\begin_inset space ~
+\end_inset
+
+nz);
+\end_layout
+
+\begin_layout Plain Layout
+
+pYbus->addTriple(i,
+\begin_inset space ~
+\end_inset
+
+j,
+\begin_inset space ~
+\end_inset
+
+vrijednost);
+\end_layout
+
+\begin_layout Plain Layout
+
+sparse::CmplxMatrixReleaser
+\begin_inset space ~
+\end_inset
+
+releaser(pYbus);
+\begin_inset space ~
+\end_inset
+
+
+\emph on
+//
+\begin_inset space ~
+\end_inset
+
+RAII
+\begin_inset space ~
+\end_inset
+
+- automatski poziva release()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Grafički prikaz (OpenDraw)
+\end_layout
+
+\begin_layout Standard
+Crtanje se odvija unutar 
+\family typewriter
+ViewNetworkCanvas::onDraw()
+\family default
+ metode, override-ovane iz natID 
+\family typewriter
+gui::Canvas
+\family default
+ klase.
+ Čvorovi se crtaju preko gotovog 
+\family typewriter
+gui::Symbol(":bus")
+\family default
+ resursa, grane preko 
+\family typewriter
+gui::Shape::drawLine()
+\family default
+, a transformatorske grane dodatno dobijaju 
+\family typewriter
+gui::Symbol(":Xfmr2")
+\family default
+ simbol na sredini.
+ Interakcija mišem (postavljanje čvorova, biranje para čvorova za povezivanje)
+ implementirana je preko 
+\family typewriter
+onPrimaryButtonPressed()
+\family default
+ metode, koja koristi 
+\family typewriter
+InputDevice::getModelPoint()
+\family default
+ za dobijanje koordinata klika.
+\end_layout
+
+\begin_layout Section
+Uputstvo za korištenje aplikacije
+\end_layout
+
+\begin_layout Enumerate
+Na tabu 
+\shape italic
+Katalog opreme
+\shape default
+ unijeti bar jedan tip voda i jedan tip transformatora (naziv i parametre),
+ te kliknuti 
+\begin_inset Quotes eld
+\end_inset
+
+Dodaj vod
+\begin_inset Quotes erd
+\end_inset
+
+ / 
+\begin_inset Quotes eld
+\end_inset
+
+Dodaj transformator
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Prijeći na tab 
+\shape italic
+Mreža
+\shape default
+.
+\end_layout
+
+\begin_layout Enumerate
+Kliknuti 
+\begin_inset Quotes eld
+\end_inset
+
+Osvježi katalog
+\begin_inset Quotes erd
+\end_inset
+
+ da se učitaju tipovi opreme iz prvog taba.
+\end_layout
+
+\begin_layout Enumerate
+Postaviti način rada na 
+\begin_inset Quotes eld
+\end_inset
+
+Dodaj čvor
+\begin_inset Quotes erd
+\end_inset
+
+ i klikati na platno da se postave sabirnice mreže.
+\end_layout
+
+\begin_layout Enumerate
+Postaviti način rada na 
+\begin_inset Quotes eld
+\end_inset
+
+Poveži granom
+\begin_inset Quotes erd
+\end_inset
+
+, odabrati tip grane i kliknuti 
+\begin_inset Quotes eld
+\end_inset
+
+Primijeni tip grane
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Kliknuti na dva čvora na platnu da se kreira grana između njih.
+\end_layout
+
+\begin_layout Enumerate
+Kliknuti 
+\begin_inset Quotes eld
+\end_inset
+
+Prikaži Ybus
+\begin_inset Quotes erd
+\end_inset
+
+ da se izgradi i prikaže matrica incidencije i trofazna Ybus admitantna
+ matrica trenutne mreže.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Ovdje dodaj svoje screenshotove aplikacije (Insert -> Graphics) - npr.
+ screenshot Katalog opreme taba i Mreza taba sa nacrtanom test mrezom i
+ ispisanom Ybus matricom.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Zakljucak"
+
+\end_inset
+
+Zaključak i mogućnosti daljeg razvoja
+\end_layout
+
+\begin_layout Standard
+Aplikacija u trenutnom obliku uspješno implementira: unos i perzistenciju
+ kataloga opreme, interaktivno grafičko kreiranje topologije mreže, i
+ formiranje matematičkog modela mreže kroz matricu incidencije i punu
+ trofaznu (ABC) admitantnu matricu, koristeći natID dense i sparse matrice.
+\end_layout
+
+\begin_layout Standard
+Mogući pravci daljeg razvoja:
+\end_layout
+
+\begin_layout Itemize
+Proračun tokova snage (npr.
+ Newton-Raphson ili backward-forward sweep metoda) korištenjem izgrađene
+ Ybus matrice, uz podršku za nesimetrično opterećenje po fazama.
+\end_layout
+
+\begin_layout Itemize
+Modelovanje nulte sekvence transformatora u zavisnosti od grupe spoja (Dyn,
+ Yyn, itd.), umjesto trenutnog pojednostavljenja nezavisnih faza.
+\end_layout
+
+\begin_layout Itemize
+Brisanje/izmjena postojećih čvorova i grana direktno na platnu.
+\end_layout
+
+\begin_layout Itemize
+Perzistencija kompletne mreže (ne samo kataloga) u fajl.
+\end_layout
+
+\begin_layout Section*
+Literatura
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "natid"
+literal "false"
+
+\end_inset
+
+I.
+ Dzafic, 
+\emph on
+natID — Native Interface Design Framework
+\emph default
+, https://github.com/idzafic/natID
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "kersting"
+literal "false"
+
+\end_inset
+
+W.
+ H.
+ Kersting, 
+\emph on
+Distribution System Modeling and Analysis
+\emph default
+, CRC Press.
+\end_layout
+
+\end_body
+\end_document
