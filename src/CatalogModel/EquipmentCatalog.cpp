@@ -1,5 +1,4 @@
 #include "EquipmentCatalog.h"
-
 #include <fstream>
 #include <sstream>
 #include <algorithm>

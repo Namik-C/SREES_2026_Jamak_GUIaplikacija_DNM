@@ -28,9 +28,17 @@ source_group("network"       FILES ${APP_SOURCES_NETWORK} ${APP_INCS_NETWORK})
 source_group("inc\\td"       FILES ${APP_INC_TD})
 source_group("inc\\gui"      FILES ${APP_INC_GUI})
 
-# Matrix biblioteka (dense/sparse matrice)
-set(MATRIX_LIB_DEBUG "${NATID_SDK_LIB}/MatrixD.lib")
-set(MATRIX_LIB_RELEASE "${NATID_SDK_LIB}/Matrix.lib")
+# Matrix biblioteka (dense/sparse matrice) - platformski zavisna ekstenzija
+if (WIN32)
+    set(MATRIX_LIB_DEBUG "${NATID_SDK_LIB}/MatrixD.lib")
+    set(MATRIX_LIB_RELEASE "${NATID_SDK_LIB}/Matrix.lib")
+elseif(APPLE)
+    set(MATRIX_LIB_DEBUG "${NATID_SDK_LIB}/MatrixD.dylib")
+    set(MATRIX_LIB_RELEASE "${NATID_SDK_LIB}/Matrix.dylib")
+else()
+    set(MATRIX_LIB_DEBUG "${NATID_SDK_LIB}/MatrixD.so")
+    set(MATRIX_LIB_RELEASE "${NATID_SDK_LIB}/Matrix.so")
+endif()
 
 target_link_libraries(${APP_NAME}
     debug ${MU_LIB_DEBUG} debug ${NATGUI_LIB_DEBUG} debug ${MATRIX_LIB_DEBUG}
